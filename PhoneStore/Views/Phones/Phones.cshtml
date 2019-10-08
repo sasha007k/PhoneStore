@@ -11,7 +11,7 @@
 <form asp-action="Phones" method="get">
     <div class="form-actions no-color">
         <p>
-            Find by name: <input type="text" name="searchString" value="@ViewData["CurrentFilter"]" />
+            Find: <input type="text" name="searchString" value="@ViewData["CurrentFilter"]" />
             <input type="submit" value="Search" class="btn btn-default" /> |
             <a asp-action="Phones">Back to Full List</a>
         </p>
@@ -30,22 +30,51 @@
             <td>
                 <b><a asp-action="Phones" asp-route-sortOrder="@ViewData["PriceSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">Price</a></b>
             </td>
+            <td><b>Add to shopping cart</b></td>
+            @if (User.Identity.IsAuthenticated)
+            {
+                if (User.IsInRole("Admin"))
+                {
+                    <td><b>Delete</b></td>
+                }
+            }
+            
         </tr>
     </thead>
 
     @foreach (var item in Model)
     {
-        <tr>
-            <td>@item.Brand</td>
-            <td>@item.Model</td>
-            <td>@item.Price</td>
-        </tr>
+    <tr>
+        <td>@item.Brand</td>
+        <td>@item.Model</td>
+        <td>@item.Price</td>
+        <td>
+            <button class="btn btn-success" width="500px" onclick="location.href='@Url.Action("AddToShoppingCart", "Phones", new { id = item.Id })'">Add</button>
+        </td>
+        @if (User.Identity.IsAuthenticated)
+        {
+            if (User.IsInRole("Admin"))
+            {
+        <td>
+            <button class="btn btn-danger" width="100px" onclick="location.href='@Url.Action("DeletePhone", "Phones", new { id = item.Id })'">Delete</button>
+        </td>
+            }
+        }        
+    </tr>
     }
 </table>
 
-@*<div>
-    @await Html.PartialAsync("PhonePartial", new OnlineStore.Models.PhoneModel())
-</div>*@
+@if (User.Identity.IsAuthenticated)
+{
+    if (User.IsInRole("Admin"))
+    {
+        <div>
+            @await Html.PartialAsync("AddPhonePartial", new PhoneStore.Models.PhoneModel())
+        </div>
+    }
+}
+
+
 
 @{
     var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";

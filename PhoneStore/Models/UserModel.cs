@@ -12,6 +12,5 @@ namespace PhoneStore.Models
         public string Street { get; set; }
         public ShoppingCart ShoppingCart { get; set; }
         public List<OrderModel> Orders { get; set; }
-
     }
 }

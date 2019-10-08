@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PhoneStore.Models;
 using PhoneStore.Services;
@@ -77,6 +78,39 @@ namespace PhoneStore.Controllers
 
             int pageSize = 4;
             return View(await PaginatedList<PhoneModel>.CreateAsync(phones, pageNumber ?? 1, pageSize));
+        }
+
+
+        public async Task<IActionResult> AddPhone(PhoneModel newPhone)
+        {
+            if (!ModelState.IsValid)
+            {
+                return RedirectToAction("Phones");
+            }
+
+            if (string.IsNullOrWhiteSpace(newPhone.Brand) || string.IsNullOrWhiteSpace(newPhone.Model))
+            {
+                return RedirectToAction("Phones");
+            }
+
+            var successful = await _phoneService.AddPhoneAsync(newPhone);
+            if (!successful)
+            {
+                return BadRequest("Could not add phone.");
+            }
+
+            return RedirectToAction("Phones");
+        }
+
+        public async Task<IActionResult> DeletePhone(int id)
+        {
+            var successful = await _phoneService.DeletePhoneAsync(id);
+            if (!successful)
+            {
+                return BadRequest("Could not delete phone.");
+            }
+
+            return RedirectToAction("Phones");
         }
     }
 }

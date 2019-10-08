@@ -24,26 +24,22 @@ namespace PhoneStore.Services
             return phones;
         }
 
-        //public async Task<bool> AddPhoneAsync(PhoneModel newPhone)
-        //{
-        //    newPhone.ID = Guid.NewGuid();
-        //    context.Phones.Add(newPhone);
+        public async Task<bool> AddPhoneAsync(PhoneModel newPhone)
+        {
+            context.Phones.Add(newPhone);
 
-        //    var saveResult = await context.SaveChangesAsync();
-        //    return saveResult == 1;
-        //}        
+            var saveResult = await context.SaveChangesAsync();
+            return saveResult == 1;
+        }
 
-        //public async Task<bool> DeletePhoneAsync(Guid id)
-        //{
-        //    var product = await context.Phones
-        //        .Where(x => x.ID == id)
-        //        .AsNoTracking()
-        //        .SingleOrDefaultAsync();
+        public async Task<bool> DeletePhoneAsync(int id)
+        {
+            var product = context.Phones.Find(id);
 
-        //    context.Phones.Remove(product);
-        //    var saveResult = await context.SaveChangesAsync();
+            context.Phones.Remove(product);
+            var saveResult = await context.SaveChangesAsync();
 
-        //    return saveResult == 1;
-        //}        
+            return saveResult == 1;
+        }
     }
 }

@@ -16,7 +16,7 @@ namespace PhoneStore.Data
         }
         public static async Task SeedUsers(UserManager<IdentityUser> userManager, PhoneStoreDbContext context)
         {
-            string username = "admin";
+            string username = "admin@gmail.com";
             string password = "admin";
             if (await userManager.FindByNameAsync(username) == null)
             {

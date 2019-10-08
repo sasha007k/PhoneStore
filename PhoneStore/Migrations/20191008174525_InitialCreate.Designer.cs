@@ -10,7 +10,7 @@ using PhoneStore.Data;
 namespace PhoneStore.Migrations
 {
     [DbContext(typeof(PhoneStoreDbContext))]
-    [Migration("20191008154622_InitialCreate")]
+    [Migration("20191008174525_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

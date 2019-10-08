@@ -77,8 +77,9 @@ namespace PhoneStore
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
+            app.UseAuthentication();
 
-           Init.SeedData(userManager, roleManager, context);
+            //Init.SeedData(userManager, roleManager, context).Wait();
 
             app.UseMvc(routes =>
             {

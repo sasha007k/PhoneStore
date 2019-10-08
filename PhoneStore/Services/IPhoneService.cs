@@ -10,8 +10,8 @@ namespace PhoneStore.Services
     {
         Task<IEnumerable<PhoneModel>> GetAllItemsAsync();
 
-        //Task<bool> AddPhoneAsync(PhoneModel newPhone);
+        Task<bool> AddPhoneAsync(PhoneModel newPhone);
 
-        //Task<bool> DeletePhoneAsync(Guid id);
+        Task<bool> DeletePhoneAsync(int id);
     }
 }
