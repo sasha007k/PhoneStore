@@ -13,6 +13,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using PhoneStore.Data;
+using PhoneStore.Models;
 using PhoneStore.Services;
 
 namespace PhoneStore
@@ -40,10 +41,12 @@ namespace PhoneStore
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddDefaultIdentity<IdentityUser>()
+
+            services.AddDefaultIdentity<UserModel>()
                 .AddRoles<IdentityRole>()
                 .AddDefaultUI(UIFramework.Bootstrap4)
-                .AddEntityFrameworkStores<PhoneStoreDbContext>();
+                .AddEntityFrameworkStores<PhoneStoreDbContext>()
+                .AddDefaultTokenProviders();
 
             services.Configure<IdentityOptions>(options =>
             {
@@ -54,6 +57,7 @@ namespace PhoneStore
                 options.Password.RequireLowercase = false;
             });
 
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddScoped<IPhoneService, PhoneService>();
             services.AddScoped<PhoneStoreDbContext>();
@@ -61,7 +65,8 @@ namespace PhoneStore
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager, PhoneStoreDbContext context)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, UserManager<UserModel> userManager,
+                                RoleManager<IdentityRole> roleManager, PhoneStoreDbContext context)
         {
             if (env.IsDevelopment())
             {
@@ -79,14 +84,16 @@ namespace PhoneStore
             app.UseCookiePolicy();
             app.UseAuthentication();
 
-            //Init.SeedData(userManager, roleManager, context).Wait();
+
+            Init.SeedData(userManager, roleManager, context).Wait();
 
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    template: "{controller=Phones}/{action=Phones}/{id?}");
             });
+
         }
     }
 }

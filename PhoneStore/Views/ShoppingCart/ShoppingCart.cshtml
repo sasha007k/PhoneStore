@@ -1,0 +1,34 @@
+﻿@using PhoneStore.Models
+@model ShoppingCart;
+@{
+    ViewData["Title"] = "Bucket";
+}
+
+<h1>Bucket</h1>
+<table class="table table-hover">
+    @foreach (var phone in Model.Phones)
+    {
+        <tr>
+            <td>
+                <h3>@phone.Brand</h3>
+            </td>
+            <td>
+                <h3>@phone.Model</h3>
+            </td>
+            <td>
+                <h3 class="book_price" style="color:cadetblue">@phone.Price</h3>
+            </td>
+            @*<td>
+                    <button class="btn btn-danger" onclick="location.href='@Url.Action("CancelBook", "User", new { id = book.Id })'">Cancel</button>
+                </td>*@
+        </tr>
+    }
+</table>
+@*<h1>Total price:@Model.TotalPrice</h1>
+    <form method="post" action="/User/CreateOrder">
+        <div class="form-group">
+            <label for="Address">Post Address</label>
+            <input type="text" class="form-control" name="Address" placeholder="NovaPosta Adrress" required>
+        </div>
+        <button type="submit" class="btn btn-success">Submit</button>
+    </form>*@

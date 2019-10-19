@@ -13,7 +13,7 @@ namespace PhoneStore.Models
         public int Year { get; set; }
         public double Price { get; set; }
 
-        public int? BucketId { get; set; }
+        public int? ShoppingCartId { get; set; }
         public ShoppingCart ShoppingCart { get; set; }
 
         public int? OrderId { get; set; }

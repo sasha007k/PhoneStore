@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using PhoneStore.Data.Configuration;
 using PhoneStore.Models;
 using System;
 using System.Collections.Generic;
@@ -9,7 +11,7 @@ using System.Threading.Tasks;
 namespace PhoneStore.Data
 {
     public class PhoneStoreDbContext : IdentityDbContext
-    {
+    {        
         public DbSet<PhoneModel> Phones { get; set; }
         public DbSet<ShoppingCart> ShoppingCarts { get; set; }
         public DbSet<OrderModel> Orders { get; set; }
@@ -22,6 +24,8 @@ namespace PhoneStore.Data
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
+
+            builder.ApplyConfiguration(new ShoppingCartConfiguration());
         }
     }
 }

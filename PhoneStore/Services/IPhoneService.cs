@@ -13,5 +13,7 @@ namespace PhoneStore.Services
         Task<bool> AddPhoneAsync(PhoneModel newPhone);
 
         Task<bool> DeletePhoneAsync(int id);
+
+        Task<bool> AddPhoneToShoppingCartAsync(int id);
     }
 }

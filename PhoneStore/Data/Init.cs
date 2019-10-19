@@ -9,18 +9,18 @@ namespace PhoneStore.Data
 {
     public static class Init
     {
-        public static async Task SeedData(UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager, PhoneStoreDbContext context)
+        public static async Task SeedData(UserManager<UserModel> userManager, RoleManager<IdentityRole> roleManager, PhoneStoreDbContext context)
         {
             await SeedRoles(roleManager);
             await SeedUsers(userManager, context);
         }
-        public static async Task SeedUsers(UserManager<IdentityUser> userManager, PhoneStoreDbContext context)
+        public static async Task SeedUsers(UserManager<UserModel> userManager, PhoneStoreDbContext context)
         {
             string username = "admin@gmail.com";
             string password = "admin";
             if (await userManager.FindByNameAsync(username) == null)
             {
-                UserModel admin = new UserModel() { UserName = username };
+                UserModel admin = new UserModel() { UserName = username, Email = username };
                 IdentityResult result = await userManager.CreateAsync(admin, password);
                 if (result.Succeeded)
                 {

@@ -112,5 +112,16 @@ namespace PhoneStore.Controllers
 
             return RedirectToAction("Phones");
         }
+
+        public async Task<IActionResult> AddPhoneToShoppingCart(int id)
+        {
+            var successful = await _phoneService.AddPhoneToShoppingCartAsync(id);
+            if (!successful)
+            {
+                return BadRequest("Could not add phone to busket.");
+            }
+
+            return RedirectToAction("Phones");
+        }
     }
 }
