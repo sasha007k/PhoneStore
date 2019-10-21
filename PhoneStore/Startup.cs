@@ -60,6 +60,8 @@ namespace PhoneStore
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddScoped<IPhoneService, PhoneService>();
+            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IAdminService, AdminService>();
             services.AddScoped<PhoneStoreDbContext>();
             services.AddScoped<RoleManager<IdentityRole>>();
         }
@@ -85,7 +87,7 @@ namespace PhoneStore
             app.UseAuthentication();
 
 
-            Init.SeedData(userManager, roleManager, context).Wait();
+            //Init.SeedData(userManager, roleManager, context).Wait();
 
             app.UseMvc(routes =>
             {

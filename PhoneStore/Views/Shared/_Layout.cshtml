@@ -30,17 +30,20 @@
                     <partial name="_LoginPartial" />
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                        <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Phones" asp-action="Phones">Phones</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="ShoppingCart" asp-action="ShoppingCart">Bucket</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="GetShoppingCart">Bucket</a>
                         </li>
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            if (User.IsInRole("Admin"))
+                            {
+                                <li>
+                                    <a class="nav-link text-dark alink" asp-area="" asp-controller="Admin" asp-action="GetOrders">Orders</a>
+                                </li>
+                            }
+                        }
                     </ul>
                 </div>
             </div>
@@ -55,7 +58,7 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2019 - PhoneStore - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; 2019 - PhoneStore <a asp-area="" asp-controller="" asp-action=""></a>
         </div>
     </footer>
 

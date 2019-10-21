@@ -1,4 +1,5 @@
 ﻿using PhoneStore.Models;
+using PhoneStore.Models.Display;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +9,7 @@ namespace PhoneStore.Services
 {
     public interface IPhoneService
     {
-        Task<IEnumerable<PhoneModel>> GetAllItemsAsync();
+        GetPhonesDisplay GetAllItems(int page=1);
 
         Task<bool> AddPhoneAsync(PhoneModel newPhone);
 

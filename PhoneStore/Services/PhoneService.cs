@@ -13,6 +13,7 @@ using Microsoft.EntityFrameworkCore;
 using PhoneStore.Data;
 using PhoneStore.Models;
 using System.Security.Claims;
+using PhoneStore.Models.Display;
 
 namespace PhoneStore.Services
 {
@@ -29,11 +30,25 @@ namespace PhoneStore.Services
             this.httpContextAccessor = httpContextAccessor;
         }
 
-        public async Task<IEnumerable<PhoneModel>> GetAllItemsAsync()
+        public GetPhonesDisplay GetAllItems(int page=1)
         {
-            var phones = await context.Phones
-                .ToListAsync();
-            return phones;
+            int pageSize = 4;
+
+            var phones = (from i in context.Phones
+                         where (i.ShoppingCartId == null) && (i.OrderId == null)
+                         select new PhoneDisplay()
+                         {
+                             Id = i.Id,
+                             Brand = i.Brand,
+                             Model = i.Model,
+                             Price = i.Price
+                         }).Skip((page - 1) * pageSize).Take(pageSize).ToList(); ;
+
+            var pageInfo = new PaginationModel { PageNumber = page, PageSize = pageSize, TotalItems = context.Phones.Count() };
+
+            var phonesDisplay = new GetPhonesDisplay() { Phones = phones, PageInfo = pageInfo };
+
+            return phonesDisplay;
         }
 
         public async Task<bool> AddPhoneAsync(PhoneModel newPhone)
@@ -61,15 +76,15 @@ namespace PhoneStore.Services
 
             var request = await manager.FindByIdAsync(userId);
 
-            var bucket = (from i in context.ShoppingCarts
+            var shoppingCart = (from i in context.ShoppingCarts
                           where i.UserId.Equals(userId)
                           select i).ToList().FirstOrDefault();
 
-            UserModel requestedUser = await manager.FindByNameAsync(request.UserName);
+            var requestedUser = await manager.FindByNameAsync(request.UserName);
 
             product.ShoppingCart = requestedUser.ShoppingCart;
-            product.ShoppingCart.Id = requestedUser.ShoppingCart.Id;
-            bucket.Phones.Add(product);
+            product.ShoppingCartId = requestedUser.ShoppingCart.Id;
+            shoppingCart.Phones.Add(product);
             var saveResult = await context.SaveChangesAsync();
 
             return saveResult == 1;

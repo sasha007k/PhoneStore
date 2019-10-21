@@ -10,7 +10,7 @@ namespace PhoneStore.Models
         public int PageIndex { get; private set; }
         public int TotalPages { get; private set; }
 
-        public PaginatedList(IEnumerable<T> items, int count, int pageIndex, int pageSize)
+        public PaginatedList(IQueryable<T> items, int count, int pageIndex, int pageSize)
         {
             PageIndex = pageIndex;
             TotalPages = (int)Math.Ceiling(count / (double)pageSize);
@@ -34,7 +34,7 @@ namespace PhoneStore.Models
             }
         }
 
-        public static async Task<PaginatedList<T>> CreateAsync(IEnumerable<T> source, int pageIndex, int pageSize)
+        public static async Task<PaginatedList<T>> CreateAsync(IQueryable<T> source, int pageIndex, int pageSize)
         {
             var count = source.Count();
             var items = source.Skip((pageIndex - 1) * pageSize).Take(pageSize);

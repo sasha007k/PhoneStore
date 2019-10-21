@@ -10,6 +10,6 @@ namespace PhoneStore.Models
         public int Id { get; set; }
         public string UserId { get; set; }
         public UserModel User { get; set; }
-        public List<PhoneModel> Phones { get; set; }
+        public ICollection<PhoneModel> Phones { get; set; } = new List<PhoneModel>();
     }
 }
