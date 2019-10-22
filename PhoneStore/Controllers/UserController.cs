@@ -44,5 +44,11 @@ namespace PhoneStore.Controllers
 
             return RedirectToAction("GetShoppingCart", "User");
         }
+
+        public async Task<IActionResult> History()
+        {
+            var orders = await _userService.GetHistoryAsync();
+            return View(orders);
+        }
     }
 }

@@ -14,5 +14,7 @@ namespace PhoneStore.Services
         Task<bool> CancelPhoneAsync(int id);
 
         Task<bool> CreateOrderAsync(string address);
+
+        Task<List<GetOrderDisplay>> GetHistoryAsync();
     }
 }

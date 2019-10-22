@@ -14,5 +14,7 @@ namespace PhoneStore.Services
         Task<bool> OpenOrderAsync(int id);
 
         Task<bool> CloseOrderAsync(int id);
+
+        Task<GetOrderDetailsDisplay> GetOrderDetailsAsync(int id);
     }
 }

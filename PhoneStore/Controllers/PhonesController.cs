@@ -28,55 +28,11 @@ namespace PhoneStore.Controllers
             return View();
         }
 
-        public async Task<IActionResult> Phones(string searchString, string sortOrder, string currentFilter, int? pageNumber)
+        [AllowAnonymous]
+        public IActionResult Phones(int page=1)
         {
-            var phones = _phoneService.GetAllItems();
-
-            //ViewData["CurrentSort"] = sortOrder;
-            //ViewData["BrandSortParm"] = String.IsNullOrEmpty(sortOrder) ? "BrandDesc" : "";
-            //ViewData["ModelSortParm"] = sortOrder == "Model" ? "ModelDesc" : "Model";
-            //ViewData["PriceSortParm"] = sortOrder == "Price" ? "PriceDesc" : "Price";
-
-            //if (searchString != null)
-            //{
-            //    pageNumber = 1;
-            //}
-            //else
-            //{
-            //    searchString = currentFilter;
-            //}
-            //ViewData["CurrentFilter"] = searchString;
-
-            //switch (sortOrder)
-            //{
-            //    case "BrandDesc":
-            //        phones = phones.OrderByDescending(p => p.Brand);
-            //        break;
-            //    case "Model":
-            //        phones = phones.OrderBy(p => p.Model);
-            //        break;
-            //    case "ModelDesc":
-            //        phones = phones.OrderByDescending(p => p.Model);
-            //        break;
-            //    case "Price":
-            //        phones = phones.OrderBy(p => p.Price);
-            //        break;
-            //    case "PriceDesc":
-            //        phones = phones.OrderByDescending(p => p.Price);
-            //        break;
-            //    default:
-            //        phones = phones.OrderBy(p => p.Brand);
-            //        break;
-            //}
-
-            //if (!String.IsNullOrEmpty(searchString))
-            //{
-            //    phones = phones.Where(p => p.Brand.Contains(searchString)
-            //                           || p.Model.Contains(searchString));
-            //}
-
-
-            //int pageSize = 4;
+            var phones = _phoneService.GetAllItems(page);
+            
             return View(phones);
         }
 
@@ -113,6 +69,7 @@ namespace PhoneStore.Controllers
             return RedirectToAction("Phones");
         }
 
+        [Authorize]
         public async Task<IActionResult> AddPhoneToShoppingCart(int id)
         {
             var successful = await _phoneService.AddPhoneToShoppingCartAsync(id);

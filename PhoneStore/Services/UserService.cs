@@ -62,7 +62,6 @@ namespace PhoneStore.Services
 
             var order = new OrderModel()
             {
-                Address = address,
                 Date = DateTime.Now,
                 Status = Status.Active,
                 UserId = requestedUser.Id,
@@ -89,6 +88,19 @@ namespace PhoneStore.Services
             var saveResult = await context.SaveChangesAsync();
 
             return saveResult == 4;
+        }
+
+        public async Task<List<GetOrderDisplay>> GetHistoryAsync()
+        {
+            var userId = httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var request = await manager.FindByIdAsync(userId);
+            var requestedUser = await manager.FindByNameAsync(request.UserName);
+
+            var orders = (from i in context.Orders
+                          where i.UserId == requestedUser.Id
+                          select new GetOrderDisplay(i.Id, i.Date, i.Address, i.Status)).ToList();
+
+            return orders;
         }
     }
 }

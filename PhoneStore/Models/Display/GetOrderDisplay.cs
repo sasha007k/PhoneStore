@@ -17,10 +17,10 @@ namespace PhoneStore.Models.Display
 
         public GetOrderDisplay(int id, DateTime? date, string address, Status status)
         {
-            this.Id = id;
-            this.Status = status;
-            this.Date = date;
-            this.Address = address;
+            Id = id;
+            Address = address;
+            Status = status;
+            Date = date;
         }
     }
 }

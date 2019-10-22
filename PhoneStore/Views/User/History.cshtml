@@ -1,0 +1,32 @@
+﻿@using PhoneStore.Models.Display;
+@model List<GetOrderDisplay>
+@{
+    ViewData["Title"] = "History";
+}
+
+<h1>Your History:</h1>
+<table class="table table-hover">
+    @foreach (var order in Model)
+    {
+        <tr>
+            @if (order.Status == PhoneStore.Models.Status.Active)
+            {
+                <td>
+                    <h3 style="color:green">@order.Status</h3>
+                </td>
+            }
+            else
+            {
+                <td>
+                    <h3 style="color:red">@order.Status</h3>
+                </td>
+            }
+            <td>
+                <h3>@order.Date</h3>
+            </td>
+            <td>
+                <h3>@order.Address</h3>
+            </td>
+        </tr>
+    }
+</table>

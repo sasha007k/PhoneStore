@@ -52,5 +52,34 @@ namespace PhoneStore.Services
 
             return saveResult == 1;
         }
+
+        public async Task<GetOrderDetailsDisplay> GetOrderDetailsAsync(int id)
+        {
+            var order = await context.Orders.FindAsync(id);
+
+            var user = await manager.FindByIdAsync(order.UserId);
+
+            var orderDetailsDisplay = new GetOrderDetailsDisplay()
+            {
+                Email = user.Email
+            };
+
+            var phones = (from i in context.Phones
+                         where i.OrderId == order.Id
+                         select new PhoneDisplay()
+                         {
+                             Id = i.Id,
+                             Brand = i.Brand,
+                             Model = i.Model,
+                             Price = i.Price
+                         }).ToList();
+
+            double totalsum = phones.Sum(b => b.Price);
+
+            orderDetailsDisplay.Phones = phones;
+            orderDetailsDisplay.TotalSum = totalsum;
+
+            return orderDetailsDisplay;
+        }
     }
 }

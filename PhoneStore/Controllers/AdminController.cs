@@ -20,34 +20,11 @@ namespace PhoneStore.Controllers
             return View(_adminService.GetOrdersAsync());
         }
 
-        //public async Task<IActionResult> GetOrderDetails(int id)
-        //{
-        //    Order order = await this._context.Orders.FindAsync(id);
-
-        //    User user = (User)await this._manager.FindByIdAsync(order.UserId);
-
-        //    GetOrderDetailsDto dto = new GetOrderDetailsDto()
-        //    {
-        //        Email = user.Email
-        //    };
-
-        //    var books = (from i in this._context.Books
-        //                 where i.OrderId == order.Id
-        //                 select new BookDisplay()
-        //                 {
-        //                     Id = i.Id,
-        //                     Name = i.Name,
-        //                     Author = i.Author,
-        //                     Price = i.Price
-        //                 }).ToList<BookDisplay>();
-
-        //    double totalsum = books.Sum(b => b.Price);
-
-        //    dto.Books = books;
-        //    dto.TotalSum = totalsum;
-
-        //    return View(dto);
-        //}
+        public async Task<IActionResult> GetOrderDetails(int id)
+        {
+            var orders = await _adminService.GetOrderDetailsAsync(id);
+            return View(orders);
+        }
 
         public async Task<IActionResult> OpenOrder(int id)
         {
