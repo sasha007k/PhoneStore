@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using PhoneStore.Data;
@@ -18,6 +19,7 @@ namespace PhoneStore.Controllers
         {
             _userService = userService;
         }
+        [Authorize]
         public async Task<IActionResult> GetShoppingCart()
         {
             var shoppingCartDisplay = await _userService.GetShoppingCartAsync();
@@ -44,7 +46,7 @@ namespace PhoneStore.Controllers
 
             return RedirectToAction("GetShoppingCart", "User");
         }
-
+        [Authorize]
         public async Task<IActionResult> History()
         {
             var orders = await _userService.GetHistoryAsync();

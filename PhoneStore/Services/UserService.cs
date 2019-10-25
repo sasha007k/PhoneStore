@@ -65,17 +65,18 @@ namespace PhoneStore.Services
                 Date = DateTime.Now,
                 Status = Status.Active,
                 UserId = requestedUser.Id,
-                User = requestedUser
+                User = requestedUser,
+                Address = address
             };
 
 
             var shoppingCart = (from i in context.ShoppingCarts
                              where i.UserId.Equals(requestedUser.Id)
-                             select i).ToList<ShoppingCart>().First();
+                             select i).ToList().First();
 
             var phones = (from i in context.Phones
                          where i.ShoppingCartId == shoppingCart.Id
-                         select i).ToList<PhoneModel>();
+                         select i).ToList();
 
             phones.ForEach(p =>
             {
@@ -87,7 +88,7 @@ namespace PhoneStore.Services
 
             var saveResult = await context.SaveChangesAsync();
 
-            return saveResult == 4;
+            return saveResult >= 1;
         }
 
         public async Task<List<GetOrderDisplay>> GetHistoryAsync()
