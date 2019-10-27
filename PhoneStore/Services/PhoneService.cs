@@ -34,17 +34,23 @@ namespace PhoneStore.Services
         {
             int pageSize = 4;
 
+            var phoneAmount = (from i in context.Phones
+                          where (i.ShoppingCartId == null && i.OrderId == null)
+                          select i).Count();
+                        
+
             var phones = (from i in context.Phones
-                         where (i.ShoppingCartId == null) && (i.OrderId == null)
+                         where (i.ShoppingCartId == null && i.OrderId == null)
                          select new PhoneDisplay()
                          {
                              Id = i.Id,
                              Brand = i.Brand,
                              Model = i.Model,
-                             Price = i.Price
+                             Price = i.Price,
+                             Sale = i.Sale
                          }).Skip((page - 1) * pageSize).Take(pageSize).ToList(); ;
 
-            var pageInfo = new PaginationModel { PageNumber = page, PageSize = pageSize, TotalItems = context.Phones.Count() };
+            var pageInfo = new PaginationModel { PageNumber = page, PageSize = pageSize, TotalItems = phoneAmount };
 
             var phonesDisplay = new GetPhonesDisplay() { Phones = phones, PageInfo = pageInfo };
 
@@ -64,6 +70,17 @@ namespace PhoneStore.Services
             var product = context.Phones.Find(id);
 
             context.Phones.Remove(product);
+            var saveResult = await context.SaveChangesAsync();
+
+            return saveResult == 1;
+        }
+
+        public async Task<bool> AddSaleAsync(int id, double sale)
+        {
+            var product = context.Phones.Find(id);
+            product.Sale = sale;
+
+            context.Phones.Update(product);
             var saveResult = await context.SaveChangesAsync();
 
             return saveResult == 1;

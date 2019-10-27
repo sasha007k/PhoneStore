@@ -162,10 +162,10 @@ namespace PhoneStore.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Address = table.Column<string>(nullable: true),
                     UserId = table.Column<string>(nullable: true),
                     Date = table.Column<DateTime>(nullable: true),
-                    Status = table.Column<int>(nullable: false)
+                    Status = table.Column<int>(nullable: false),
+                    Address = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -205,8 +205,8 @@ namespace PhoneStore.Migrations
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Brand = table.Column<string>(nullable: true),
                     Model = table.Column<string>(nullable: true),
-                    Year = table.Column<int>(nullable: false),
                     Price = table.Column<double>(nullable: false),
+                    Sale = table.Column<double>(nullable: false),
                     ShoppingCartId = table.Column<int>(nullable: true),
                     OrderId = table.Column<int>(nullable: true)
                 },

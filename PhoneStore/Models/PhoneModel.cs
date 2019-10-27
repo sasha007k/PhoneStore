@@ -10,8 +10,8 @@ namespace PhoneStore.Models
         public int Id { get; set; }
         public string Brand { get; set; }
         public string Model { get; set; }
-        public int Year { get; set; }
         public double Price { get; set; }
+        public double Sale { get; set; }
 
         public int? ShoppingCartId { get; set; }
         public ShoppingCart ShoppingCart { get; set; }

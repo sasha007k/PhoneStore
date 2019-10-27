@@ -12,7 +12,9 @@ namespace PhoneStore.Models
         public int TotalItems { get; set; }
         public int TotalPages
         {
-            get { return (int)Math.Ceiling((decimal)TotalItems / PageSize); }
+            get { 
+                return (int)Math.Ceiling((decimal)TotalItems / PageSize); 
+            }
         }
     }
 }

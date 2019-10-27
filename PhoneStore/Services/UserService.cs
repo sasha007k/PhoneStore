@@ -36,7 +36,7 @@ namespace PhoneStore.Services
 
             var phones = from i in context.Phones
                          where i.ShoppingCartId == shoppingCart.Id
-                         select new PhoneDisplay() { Brand = i.Brand, Model = i.Model, Price = i.Price, Id = i.Id };
+                         select new PhoneDisplay() { Brand = i.Brand, Model = i.Model, Price = (i.Price - (i.Price*i.Sale/100)), Id = i.Id, Sale = i.Sale };
 
             double sum = phones.Sum(b => b.Price);
 

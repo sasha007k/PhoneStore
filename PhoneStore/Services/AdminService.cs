@@ -71,7 +71,8 @@ namespace PhoneStore.Services
                              Id = i.Id,
                              Brand = i.Brand,
                              Model = i.Model,
-                             Price = i.Price
+                             Price = (i.Price - (i.Price * i.Sale / 100)),
+                             Sale = i.Sale
                          }).ToList();
 
             double totalsum = phones.Sum(b => b.Price);

@@ -20,12 +20,16 @@
             <td>
                 <b>Price</b>
             </td>
+            <td>
+                <b>Sale Price</b>
+            </td>
             <td><b>Bucket</b></td>
             @if (User.Identity.IsAuthenticated)
             {
                 if (User.IsInRole("Admin"))
                 {
                     <td><b>Delete</b></td>
+                    <td><b>Add Sale</b></td>
                 }
             }
 
@@ -34,23 +38,57 @@
 
     @foreach (var item in Model.Phones)
     {
-        <tr>
-            <td>@item.Brand</td>
-            <td>@item.Model</td>
-            <td>@item.Price</td>
+<tr>
+    <td>@item.Brand</td>
+    <td>@item.Model</td>
+    @if (item.Sale != 0.0)
+    {
+        <td><strike>@item.Price</strike></td>
+    }
+    else
+    {
+        <td>@item.Price</td>
+    }
+    @if (item.Sale != 0.0)
+    {
+        <td>@(@item.Price - (@item.Price * @item.Sale / 100))</td>
+    }
+    else
+    {
+        <td>No sale</td>
+    }
+    
+    <td>
+        <button class="btn btn-success" onclick="location.href='@Url.Action("AddPhoneToShoppingCart", "Phones", new { id = item.Id })'">Add</button>
+    </td>
+    @if (User.Identity.IsAuthenticated)
+    {
+        if (User.IsInRole("Admin"))
+        {
             <td>
-                <button class="btn btn-success" onclick="location.href='@Url.Action("AddPhoneToShoppingCart", "Phones", new { id = item.Id })'">Add</button>
+                <button class="btn btn-danger" onclick="location.href='@Url.Action("DeletePhone", "Phones", new { id = item.Id })'">Delete</button>
             </td>
-            @if (User.Identity.IsAuthenticated)
-            {
-                if (User.IsInRole("Admin"))
-                {
-                    <td>
-                        <button class="btn btn-danger" onclick="location.href='@Url.Action("DeletePhone", "Phones", new { id = item.Id })'">Delete</button>
-                    </td>
-                }
-            }
-        </tr>
+            <td>
+                <div>
+                    <form action="/Phones/AddSale" method="post">
+                        <div class="input-group">
+                            <input type="hidden" value="@item.Id" name="id"
+                                   aria-label="Sale" aria-describedby="basic-addon2">
+                            <input type="number" min="0.0" max="100.0" name="sale" value="@item.Sale" class="form-control" placeholder="Sale"
+                                   aria-label="Sale" aria-describedby="basic-addon2">
+                            <div class="input-group-append">
+                                <button type="submit"
+                                        class="btn btn-success">
+                                    Confirm
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </td>
+        }
+    }
+</tr>
     }
 </table>
 
@@ -71,15 +109,13 @@
             @if (Model.PageInfo.PageNumber == 1)
             {
                 <li class="page-item disabled"><a class="page-link" href=@string.Format("/Phones/Phones/?page={0}",Model.PageInfo.PageNumber)>Previous</a></li>
-
             }
             else
             {
-
                 <li class="page-item"><a class="page-link" href=@string.Format("/Phones/Phones/?page={0}",Model.PageInfo.PageNumber-1)>Previous</a></li>
             }
 
-            @if (Model.PageInfo.PageNumber == Model.PageInfo.TotalPages - 2)
+            @if (Model.PageInfo.PageNumber == Model.PageInfo.TotalPages)
             {
                 <li class="page-item disabled"><a class="page-link" href=@string.Format("/Phones/Phones/?page={0}",Model.PageInfo.PageNumber)>Next</a></li>
             }

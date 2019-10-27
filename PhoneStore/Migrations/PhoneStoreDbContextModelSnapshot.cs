@@ -224,9 +224,9 @@ namespace PhoneStore.Migrations
 
                     b.Property<double>("Price");
 
-                    b.Property<int?>("ShoppingCartId");
+                    b.Property<double>("Sale");
 
-                    b.Property<int>("Year");
+                    b.Property<int?>("ShoppingCartId");
 
                     b.HasKey("Id");
 

@@ -15,6 +15,8 @@ namespace PhoneStore.Services
 
         Task<bool> DeletePhoneAsync(int id);
 
+        Task<bool> AddSaleAsync(int id, double sale);
+
         Task<bool> AddPhoneToShoppingCartAsync(int id);
     }
 }

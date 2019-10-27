@@ -69,6 +69,18 @@ namespace PhoneStore.Controllers
             return RedirectToAction("Phones");
         }
 
+        [HttpPost]
+        public async Task<IActionResult> AddSale(int id, double sale)
+        {
+            var successful = await _phoneService.AddSaleAsync(id, sale);
+            if (!successful)
+            {
+                return BadRequest("Could not create sale.");
+            }
+
+            return RedirectToAction("Phones");
+        }
+
         [Authorize]
         public async Task<IActionResult> AddPhoneToShoppingCart(int id)
         {

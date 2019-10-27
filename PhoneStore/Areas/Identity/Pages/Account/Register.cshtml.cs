@@ -86,6 +86,7 @@ namespace PhoneStore.Areas.Identity.Pages.Account
                     await this._userManager.AddToRoleAsync(user, "Shopper");
 
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+
                     var callbackUrl = Url.Page(
                         "/Account/ConfirmEmail",
                         pageHandler: null,
